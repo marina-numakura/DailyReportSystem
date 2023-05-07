@@ -6,9 +6,9 @@
     <link rel="stylesheet" th:href="@{/css/employee/edit.css}">
 </head>
 <body>
-    <h1 th:text="'id:'+${employee.id}+'の従業員情報　詳細ページ'"></h1>
+    <h1 th:text="'id:'+${employee.id}+'の従業員情報　編集ページ'"></h1>
     <h2>(パスワードは変更する場合のみ入力してください)</h2>
-     <form method="post" th:action="@{/employee/edit}" th:object="${employee}">
+     <form method="post" th:action="@{/employee/edit/{id}/(id=${employee.id})}" th:object="${employee}">
         <label for="code">社員番号</label>
         <input type="text" th:field="*{authentication.code}">
         <br>
@@ -19,7 +19,7 @@
         <input type="password" th:field="*{authentication.password}">
         <br>
         <label for="role">権限</label>
-        <select name="role">
+        <select th:field="*{authentication.role}">
             <option value="一般">一般</option>
             <option value="管理者">管理者</option>
         </select>

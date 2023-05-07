@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
 import com.techacademy.service.EmployeeService;
@@ -38,49 +37,64 @@ public class EmployeeController {
         Employee employee = id != null ? service.getEmployee(id) : new Employee();
         // Modelに登録
         model.addAttribute("employee", employee);
-        // employee/detail.htmlに画面遷移
+        // 従業員詳細画面（employee/detail.html）に遷移
         return "employee/detail";
     }
 
-    /** 従業員新規登録画面を表示 */
+    /** 従業員情報新規登録画面を表示 */
     @GetMapping("/register")
     public String getRegister(@ModelAttribute Employee employee) {
-        // 従業員登録画面に遷移
+        // 従業員登録画面（employee/register.html）に遷移
         return "employee/register";
     }
 
-    /** 従業員登録処理 */
+    /** 従業員新規登録処理 */
     @PostMapping("/register")
     public String postRegister(Employee employee) {
-        LocalDateTime currentTime = LocalDateTime.now();
-        employee.setCreatedAt(currentTime);
-        employee.setDeleteFlag(0);
-        employee.setUpdatedAt(currentTime);
+        // 社員番号または氏名またはパスワードが空欄だった場合
+        if(employee.getAuthentication().getCode().equals("") ||
+                employee.getName().equals("") ||
+                employee.getAuthentication().getPassword().equals("")) {
+            // 従業員登録画面（employee/register.html）に遷移
+            return "employee/register";
+        }
+        LocalDateTime currentTime = LocalDateTime.now(); // 現在日時
+        employee.setCreatedAt(currentTime); //　登録日時
+        employee.setDeleteFlag(0); //　削除フラグ
+        employee.setUpdatedAt(currentTime); //　更新日時
         Authentication a = employee.getAuthentication();
         a.setEmployee(employee);
-        // 従業員登録
+        // 従業員情報登録
         service.saveEmployee(employee);
-        // 一覧画面にリダイレクト
+        // 一覧画面（employee/list.html）にリダイレクト
         return "redirect:/employee/list";
     }
 
-    /** 従業員情報　編集ページを表示 */
+    /** 従業員情報編集画面を表示 */
     @GetMapping(value = {"/edit","/edit/{id}/" })
     public String getEmployeeedit(@PathVariable(name = "id", required = false) Integer id, Model model) {
         // codeが指定されていたら検索結果、無ければ空のクラスを設定
         Employee employee = id != null ? service.getEmployee(id) : new Employee();
         // Modelに登録
         model.addAttribute("employee", employee);
-        // employee/edit.htmlに画面遷移
+        // 従業員詳細画面（employee/edit.html）に遷移
         return "employee/edit";
     }
 
     /** 従業員情報の編集処理 */
-    @PostMapping("/edit")
-    public String postEdit(Employee employee) {
+    @PostMapping("/edit/{id}/")
+    public String postEmployee(@PathVariable(name = "id", required = false) Integer id, Employee employee) {
+        Employee tableEmployee = id != null ? service.getEmployee(id) : new Employee();
+        if(!employee.getAuthentication().getPassword().equals("")) { //パスワードが空でない場合
+            tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword()); // パスワード上書き
+        }
+        tableEmployee.setName(employee.getName());
+        tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole());
+        LocalDateTime currentTime = LocalDateTime.now();
+        tableEmployee.setUpdatedAt(currentTime);
         // 従業員情報登録
-        service.saveEmployee(employee);
-        // 一覧画面にリダイレクト
+        service.saveEmployee(tableEmployee);
+        // 一覧画面（employee/list.html）にリダイレクト
         return "redirect:/employee/list";
     }
 
@@ -88,7 +102,7 @@ public class EmployeeController {
     @GetMapping(value = {"/delete","/delete/{id}/" })
     public String getEmployeedelete(@PathVariable(name = "id", required = false) Integer id, Model model) {
         service.removeEmployee(id);
-        // 一覧画面にリダイレクト
+        // 一覧画面（employee/list.html）にリダイレクト
         return "redirect:/employee/list";
     }
 }

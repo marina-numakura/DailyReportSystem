@@ -11,10 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
-
 import lombok.Data;
 
 @Data
