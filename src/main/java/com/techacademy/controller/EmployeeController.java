@@ -15,6 +15,7 @@ import com.techacademy.service.EmployeeService;
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
+
     private final EmployeeService service;
 
     public EmployeeController(EmployeeService service) {
@@ -33,7 +34,7 @@ public class EmployeeController {
     /** 詳細画面を表示 */
     @GetMapping(value = { "/detail", "/detail/{id}/" })
     public String getEmployee(@PathVariable(name = "id", required = false) Integer id, Model model) {
-        // codeが指定されていたら検索結果、無ければ空のクラスを設定
+        // idが指定されていたら検索結果、無ければ空のクラスを設定
         Employee employee = id != null ? service.getEmployee(id) : new Employee();
         // Modelに登録
         model.addAttribute("employee", employee);
@@ -64,8 +65,12 @@ public class EmployeeController {
         employee.setUpdatedAt(currentTime); //　更新日時
         Authentication a = employee.getAuthentication();
         a.setEmployee(employee);
+        try {
         // 従業員情報登録
         service.saveEmployee(employee);
+        } catch (Exception e) { //エラーが起こった場合一覧画面にリダイレクト　※Exception（全エラーを受け取る）
+            return "employee/register";
+        }
         // 一覧画面（employee/list.html）にリダイレクト
         return "redirect:/employee/list";
     }
@@ -73,7 +78,7 @@ public class EmployeeController {
     /** 従業員情報編集画面を表示 */
     @GetMapping(value = {"/edit","/edit/{id}/" })
     public String getEmployeeedit(@PathVariable(name = "id", required = false) Integer id, Model model) {
-        // codeが指定されていたら検索結果、無ければ空のクラスを設定
+        // idが指定されていたら検索結果、無ければ空のクラスを設定
         Employee employee = id != null ? service.getEmployee(id) : new Employee();
         // Modelに登録
         model.addAttribute("employee", employee);
@@ -81,17 +86,17 @@ public class EmployeeController {
         return "employee/edit";
     }
 
-    /** 従業員情報の編集処理 */
+    /** 従業員情報の編集処理(更新) */
     @PostMapping("/edit/{id}/")
     public String postEmployee(@PathVariable(name = "id", required = false) Integer id, Employee employee) {
         Employee tableEmployee = id != null ? service.getEmployee(id) : new Employee();
-        if(!employee.getAuthentication().getPassword().equals("")) { //パスワードが空でない場合
+        if(!employee.getAuthentication().getPassword().equals("")) { //パスワードの欄が空でない場合
             tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword()); // パスワード上書き
         }
-        tableEmployee.setName(employee.getName());
-        tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole());
+        tableEmployee.setName(employee.getName()); //　氏名上書き
+        tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole()); //　権限上書き
         LocalDateTime currentTime = LocalDateTime.now();
-        tableEmployee.setUpdatedAt(currentTime);
+        tableEmployee.setUpdatedAt(currentTime); // 更新日時
         // 従業員情報登録
         service.saveEmployee(tableEmployee);
         // 一覧画面（employee/list.html）にリダイレクト
