@@ -1,6 +1,8 @@
 package com.techacademy.controller;
 
 import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import com.techacademy.service.EmployeeService;
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final EmployeeService service;
 
@@ -65,10 +69,12 @@ public class EmployeeController {
         employee.setUpdatedAt(currentTime); //　更新日時
         Authentication a = employee.getAuthentication();
         a.setEmployee(employee);
+        String password = a.getPassword();
+        a.setPassword(passwordEncoder.encode(password)); // ハッシュ化(パスワードを無意味な文字列に変換)したパスワードをセット
         try {
         // 従業員情報登録
         service.saveEmployee(employee);
-        } catch (Exception e) { //エラーが起こった場合一覧画面にリダイレクト　※Exception（全エラーを受け取る）
+        } catch (Exception e) { //エラーが起こった場合登録画面にリダイレクト　※Exception（全エラーを受け取る）
             return "employee/register";
         }
         // 一覧画面（employee/list.html）にリダイレクト
