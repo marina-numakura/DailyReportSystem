@@ -10,7 +10,7 @@
     <h2>(パスワードは変更する場合のみ入力してください)</h2>
      <form method="post" th:action="@{/employee/edit/{id}/(id=${employee.id})}" th:object="${employee}">
         <label for="code">社員番号</label>
-        <input type="text" th:field="*{authentication.code}">
+        <span th:text = "*{authentication.code}"></span>
         <br>
         <label for="name">氏名</label>
         <input type="text" th:field="*{name}">

@@ -75,6 +75,7 @@ public class EmployeeController {
         // 従業員情報登録
         service.saveEmployee(employee);
         } catch (Exception e) { //エラーが起こった場合登録画面にリダイレクト　※Exception（全エラーを受け取る）
+            a.setPassword(""); //問題が起こったときはパスワードを空にして登録画面に戻る
             return "employee/register";
         }
         // 一覧画面（employee/list.html）にリダイレクト
@@ -97,7 +98,8 @@ public class EmployeeController {
     public String postEmployee(@PathVariable(name = "id", required = false) Integer id, Employee employee) {
         Employee tableEmployee = id != null ? service.getEmployee(id) : new Employee();
         if(!employee.getAuthentication().getPassword().equals("")) { //パスワードの欄が空でない場合
-            tableEmployee.getAuthentication().setPassword(employee.getAuthentication().getPassword()); // パスワード上書き
+            tableEmployee.getAuthentication().setPassword(passwordEncoder.encode(employee.getAuthentication().getPassword())); // パスワード上書き
+            // ハッシュ化(パスワードを無意味な文字列に変換)したパスワードをセット
         }
         tableEmployee.setName(employee.getName()); //　氏名上書き
         tableEmployee.getAuthentication().setRole(employee.getAuthentication().getRole()); //　権限上書き
