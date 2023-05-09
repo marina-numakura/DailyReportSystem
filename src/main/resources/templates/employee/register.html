@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>Daily Report System</title>
-    <link rel="stylesheet" th:href="@{/css/employee/register.css}">
+<meta charset="utf-8">
+<title>Daily Report System</title>
+<link rel="stylesheet" th:href="@{/css/employee/register.css}">
 </head>
 <body>
-    <h1>従業員　新規登録ページ</h1>
-    <form method="post" th:action="@{/employee/register}" th:object="${employee}">
-        <label for="code">社員番号</label>
-        <input type="text" th:field="*{authentication.code}">
-        <br>
-        <label for="name">氏名</label>
-        <input type="text" th:field="*{name}">
-        <br>
-        <label for="password">パスワード</label>
-        <input type="text" th:field="*{authentication.password}">
-        <br>
-        <label for="role">権限</label>
-        <select th:field="*{authentication.role}">
+    <h1>従業員 新規登録ページ</h1>
+    <form method="post" th:action="@{/employee/register}"
+        th:object="${employee}">
+        <label for="code">社員番号</label> <input type="text"
+            th:field="*{authentication.code}"> <br> <label
+            for="name">氏名</label> <input type="text" th:field="*{name}">
+        <br> <label for="password">パスワード</label> <input type="text"
+            th:field="*{authentication.password}"> <br> <label
+            for="role">権限</label> <select th:field="*{authentication.role}">
             <option value="一般">一般</option>
             <option value="管理者">管理者</option>
-        </select>
-        <br>
-        <input type="submit" value="投稿">
+        </select> <br> <input type="submit" value="投稿">
     </form>
     <a th:href="@{/employee/list}">一覧に戻る</a>
 </body>

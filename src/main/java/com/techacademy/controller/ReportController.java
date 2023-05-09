@@ -1,6 +1,8 @@
 package com.techacademy.controller;
 
 import java.time.LocalDateTime;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.techacademy.entity.Report;
 import com.techacademy.service.ReportService;
-
+import com.techacademy.service.UserDetail;
 @Controller
 @RequestMapping("report")
 public class ReportController {
@@ -25,7 +27,7 @@ public class ReportController {
     @GetMapping("/list")
     public String getList(Model model) {
         // 全件検索結果をModelに登録
-        model.addAttribute("list", service.getReportList());
+        model.addAttribute("reportlist", service.getReportList());
         // report/list.htmlに画面遷移
         return "report/list";
     }
@@ -43,23 +45,24 @@ public class ReportController {
 
     /** 日報情報新規登録画面を表示 */
     @GetMapping("/register")
-    public String getRegister(@ModelAttribute Report report) {
+    public String getRegister(@ModelAttribute Report report,@AuthenticationPrincipal UserDetail userDetail,Model model) {
+     // Modelに登録
+        model.addAttribute("userDetail", userDetail);
         // 日報登録画面（report/register.html）に遷移
         return "report/register";
     }
 
+
     /** 日報新規登録処理 */
     @PostMapping("/register")
-    public String postRegister(Report report) {
+    public String postRegister(Report report,@AuthenticationPrincipal UserDetail userDetail) {
         // タイトルまたは内容が空欄だった場合
         if(report.getTitle().equals("") ||
                 report.getContent().equals("")) {
             // 日報登録画面（report/register.html）に遷移
             return "report/register";
         }
-//        report.setReport_date(); //　日付
-//        report.setTitle(); //　タイトル
-        report.getContent(); //　内容
+        report.setEmployee(userDetail.getEmployee());
         LocalDateTime currentTime = LocalDateTime.now(); // 現在日時
         report.setCreatedAt(currentTime); //　登録日時
         report.setUpdatedAt(currentTime); //　更新日時
@@ -98,5 +101,4 @@ public class ReportController {
         // 一覧画面（report/list.html）にリダイレクト
         return "redirect:/report/list";
     }
-
 }
