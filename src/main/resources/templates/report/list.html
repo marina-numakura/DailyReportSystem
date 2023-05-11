@@ -21,6 +21,9 @@
             <td><a th:href="@{/report/detail/{aid}/(aid=${report.id})}">詳細をみる</a></td>
         </tr>
     </table>
+     <form method="post" th:action="@{/logout}">
+        <input type="submit" value="ログアウト">
+    </form><br>
     <a th:href="@{/report/register}">新規日報の登録</a>
 </body>
 </html>

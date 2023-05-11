@@ -1,7 +1,6 @@
 package com.techacademy.controller;
 
 import java.time.LocalDateTime;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,7 +92,7 @@ public class ReportController {
         Report tableReport = id != null ? service.getReport(id) : new Report();
         tableReport.setReportDate(report.getReportDate()); //　日報の日付上書き
         tableReport.setTitle(report.getTitle()); //　タイトル上書き
-        tableReport.setContent(report.getContent()); //　タイトル上書き
+        tableReport.setContent(report.getContent()); //　内容上書き
         LocalDateTime currentTime = LocalDateTime.now();
         tableReport.setUpdatedAt(currentTime); // 更新日時
         // 日報情報登録

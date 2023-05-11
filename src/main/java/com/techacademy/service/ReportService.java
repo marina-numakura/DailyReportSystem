@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.ReportRepository;
 
@@ -46,5 +47,18 @@ public class ReportService  {
         // 取得できなかった場合はnullを返す
         Report report = option.orElse(null);
         return report;
+    }
+
+    /**　追記　*/
+    public List<Report> getfindByEmployee() {
+        return reportRepository.findAll();
+    }
+
+    /** ログインしている従業員の日報一覧を表示 */
+    public List<Report> getReportList(Employee employee) {
+        // findByIdで検索
+        List<Report> reports = reportRepository.findByEmployee(employee);
+        // 取得できなかった場合はnullを返す
+        return reports;
     }
 }

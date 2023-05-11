@@ -7,14 +7,15 @@
 </head>
 <body>
     <h1>日報 編集ページ</h1>
-    <form method="post" th:action="@{/report/register}" th:object="${report}">
+    <form method="post" th:action="@{/report/register}"
+        th:object="${report}">
         <label for="date">日付</label> <input type="text"
-            th:field="*{reportDate}"> <br> <label
-            for="name">氏名</label> <input type="text" th:field="*{employee.name}">
-        <br> <label for="title">タイトル</label> <input type="text"
-            th:field="*{title}"> <br> <label
-            for="content">内容</label> <select th:field="*{content}">
-        </select> <br> <input type="submit" value="投稿">
+            th:field="*{reportDate}"> <br> <label for="name">氏名</label>
+        <input type="text" th:field="*{employee.name}"> <br> <label
+            for="title">タイトル</label> <input type="text" th:field="*{title}">
+        <br> <label for="content">内容</label> <input type="text"
+            th:field="*{content}"> <br> <input type="submit"
+            value="投稿"> <input type="hidden" id="id" name="id" th:value="*{id}">
     </form>
     <a th:href="@{/report/list}">一覧に戻る</a>
 </body>
