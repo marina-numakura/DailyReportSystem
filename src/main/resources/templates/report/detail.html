@@ -25,9 +25,7 @@
             <td th:text="${report.updatedAt}"></td>
         </tr>
     </table>
-    <a th:href="@{/report/edit/{aid}/(aid=${report.id})}">この日報を編集する</a>
-    <p>
-        <a th:href="@{/report/list}">一覧に戻る</a>
-    </p>
+    <p><a th:if="${flag} eq 1" th:href="@{/report/edit/{id}/(id=${report.id})}">この日報を編集する</a></p>
+    <p><a th:href="@{/report/list}">一覧に戻る</a></p>
 </body>
 </html>
