@@ -52,19 +52,21 @@ public class ReportController {
     /** 日報情報新規登録画面を表示 */
     @GetMapping("/register")
     public String getRegister(@ModelAttribute Report report,@AuthenticationPrincipal UserDetail userDetail,Model model) {
-     // Modelに登録
+        // Modelに登録
         model.addAttribute("userDetail", userDetail);
         // 日報登録画面（report/register.html）に遷移
         return "report/register";
     }
 
-
     /** 日報新規登録処理 */
     @PostMapping("/register")
-    public String postRegister(Report report,@AuthenticationPrincipal UserDetail userDetail) {
-        // タイトルまたは内容が空欄だった場合
+    public String postRegister(Report report,@AuthenticationPrincipal UserDetail userDetail,Model model) {
+        // タイトルまたは内容が空欄および日付がnullだった場合
         if(report.getTitle().equals("") ||
-                report.getContent().equals("")) {
+                report.getContent().equals("") ||
+                report.getReportDate() == null) {
+            // 登録前と同じく日報作成者を出すため事前にuserDetailをセット
+            model.addAttribute("userDetail", userDetail);
             // 日報登録画面（report/register.html）に遷移
             return "report/register";
         }
