@@ -23,8 +23,8 @@ public class TopController {
     public String index(@AuthenticationPrincipal UserDetail userDetail,Model model) {
         model.addAttribute("reportlist", service.getReportList(userDetail.getEmployee()));
         model.addAttribute("size", service.getReportList(userDetail.getEmployee()).size()); //　全件数を渡す
+        model.addAttribute("employee",userDetail.getEmployee()); //従業員情報を渡す
         return "index";
     }
-
 
 }

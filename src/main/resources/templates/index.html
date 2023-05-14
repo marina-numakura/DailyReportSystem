@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>Daily Report System</title>
-    <link rel="stylesheet" th:href="@{/css/employee/list.css}">
+<meta charset="utf-8">
+<title>Daily Report System</title>
+<link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
+<header>
+        <h1><font color="white">日報管理システム</font></h1>
+        <nav class="nav">
+            <ul class="menu-group">
+                <li class="menu-item"><a th:href="@{/employee/list}"><font
+                        color="white">従業員管理</font></a></li>
+                <li class="menu-item"><a th:href="@{/report/list}"><font
+                        color="white">日報管理</font></a></li>
+                <li class="menu-item"><font color="white"><span
+                        th:text="${employee.name}"></span></font></li>
+                <li class="menu-item"><a th:href="@{/logout}"><font
+                        color="white">ログアウト</font></a></li>
+            </ul>
+        </nav>
+    </header>
     <h1>日報管理システムへようこそ</h1>
     <h2>【自分の日報一覧】</h2>
     <table>
@@ -22,11 +37,8 @@
             <td><a th:href="@{/report/detail/{aid}/(aid=${report.id})}">詳細をみる</a></td>
         </tr>
     </table>
-    <form method="post" th:action="@{/logout}">
-        <input type="submit" value="ログアウト">
-    </form><br>
-     <p th:text="'（全'+${size}+'件）'" ></p>
-    <p><a th:href="@{/employee/list}">従業員管理</a></p>
-    <p><a th:href="@{/report/list}">日報管理</a></p>
+    <p th:text="'（全'+${size}+'件）'"></p>
+    <br>
+    <p><a th:href="@{/report/register}">新規日報の登録</a></p>
 </body>
 </html>

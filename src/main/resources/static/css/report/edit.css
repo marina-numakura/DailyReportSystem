@@ -24,6 +24,16 @@ label {
     line-height: 150%;
 }
 
+.content {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin:0.5em 0;
+    line-height:1.5;
+    height: 6em;
+}
+
 pre {
     font-family: "Hiragino Kaku Gothic Pro",Meiryo,"MS PGothic",Helvetica,Arial,sans-serif;
 }

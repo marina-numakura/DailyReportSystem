@@ -2,6 +2,7 @@ package com.techacademy.controller;
 
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.techacademy.entity.Authentication;
 import com.techacademy.entity.Employee;
 import com.techacademy.service.EmployeeService;
+import com.techacademy.service.UserDetail;
 
 @Controller
 @RequestMapping("employee")
@@ -28,9 +30,11 @@ public class EmployeeController {
 
     /** 一覧画面を表示 */
     @GetMapping("/list")
-    public String getList(Model model) {
+    public String getList(@AuthenticationPrincipal UserDetail userDetail,Model model) {
         // 全件検索結果をModelに登録
         model.addAttribute("employeelist", service.getEmployeeList());
+        model.addAttribute("size", service.getEmployeeList().size()); //　全件数を渡す
+        model.addAttribute("employee",userDetail.getEmployee()); //従業員情報を渡す
         // employee/list.htmlに画面遷移
         return "employee/list";
     }
@@ -72,8 +76,8 @@ public class EmployeeController {
         String password = a.getPassword();
         a.setPassword(passwordEncoder.encode(password)); // ハッシュ化(パスワードを無意味な文字列に変換)したパスワードをセット
         try {
-        // 従業員情報登録
-        service.saveEmployee(employee);
+            // 従業員情報登録
+            service.saveEmployee(employee);
         } catch (Exception e) { //エラーが起こった場合登録画面にリダイレクト　※Exception（全エラーを受け取る）
             a.setPassword(""); //問題が起こったときはパスワードを空にして登録画面に戻る
             return "employee/register";

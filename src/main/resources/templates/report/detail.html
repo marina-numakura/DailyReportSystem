@@ -6,6 +6,23 @@
 <link rel="stylesheet" th:href="@{/css/report/detail.css}">
 </head>
 <body>
+    <header>
+        <h1>
+            <font color="white">日報管理システム</font>
+        </h1>
+        <nav class="nav">
+            <ul class="menu-group">
+                <li class="menu-item"><a th:href="@{/employee/list}"><font
+                        color="white">従業員管理</font></a></li>
+                <li class="menu-item"><a th:href="@{/report/list}"><font
+                        color="white">日報管理</font></a></li>
+                <li class="menu-item"><font color="white"><span
+                        th:text="${loginUser.name}+'　さん'"></span></font></li>
+                <li class="menu-item"><a th:href="@{/logout}"><font
+                        color="white">ログアウト</font></a></li>
+            </ul>
+        </nav>
+    </header>
     <h1>日報 詳細ページ</h1>
     <table>
         <tr>
@@ -20,12 +37,17 @@
             <td th:text="${report.employee.name}"></td>
             <td th:text="${report.reportDate}"></td>
             <td th:text="${report.title}"></td>
-            <td th:text="${report.content}"></td>
+            <td><pre th:text="${report.content}"></pre></td>
             <td th:text="${report.createdAt}"></td>
             <td th:text="${report.updatedAt}"></td>
         </tr>
     </table>
-    <p><a th:if="${flag} eq 1" th:href="@{/report/edit/{id}/(id=${report.id})}">この日報を編集する</a></p>
-    <p><a th:href="@{/report/list}">一覧に戻る</a></p>
+    <p>
+        <a th:if="${flag} eq 1"
+            th:href="@{/report/edit/{id}/(id=${report.id})}">この日報を編集する</a>
+    </p>
+    <p>
+        <a th:href="@{/report/list}">一覧に戻る</a>
+    </p>
 </body>
 </html>

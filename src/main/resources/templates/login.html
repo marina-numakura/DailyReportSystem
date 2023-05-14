@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>Daily Report System</title>
+<meta charset="utf-8">
+<title>Daily Report System</title>
+<link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-    <h1>日報管理システム</h1>
+    <header>
+        <h1><font color="white">日報管理システム</font></h1>
+    </header>
     <h2>ログイン</h2>
     <p class="err" th:if="${param.error}">社員番号かパスワードが一致しませんでした。</p>
     <form method="post" action="/login" th:action="@{/login}">
-    <table>
-        <tr>
-            <td><label for="loginuser">社員番号：</label></td>
-            <td><input type="text" id="username" name="username" value=""></td>
-        </tr>
-        <tr>
-            <td><label for="password">パスワード：</label></td>
-            <td><input type="text" id="password" name="password" value=""></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><input type="submit" name="loginRun" value="ログイン"></td>
-        </tr>
-    </table>
+        <table>
+            <tr>
+                <td><label for="loginuser">社員番号：</label></td>
+                <td><input type="text" id="username" name="username" value=""></td>
+            </tr>
+            <tr>
+                <td><label for="password">パスワード：</label></td>
+                <td><input type="text" id="password" name="password" value=""></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="loginRun" value="ログイン"></td>
+            </tr>
+        </table>
     </form>
 </body>
 </html>
