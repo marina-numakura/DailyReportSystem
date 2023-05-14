@@ -1,5 +1,6 @@
 package com.techacademy.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 public class LogoutController {
@@ -10,4 +11,12 @@ public class LogoutController {
         // ログイン画面にリダイレクト
         return "redirect:/login";
     }
+
+    /** ログアウト処理を行なう */
+    @GetMapping("/logout")
+    public String getLogout() {
+        // ログイン画面にリダイレクト
+        return "redirect:/login";
+    }
+
 }

@@ -6,16 +6,33 @@
 <link rel="stylesheet" th:href="@{/css/report/edit.css}">
 </head>
 <body>
+    <header>
+        <h1>
+            <a href="/"><font color="white">日報管理システム</font></a>
+        </h1>
+        <nav class="nav">
+            <ul class="menu-group">
+                <li class="menu-item"><a th:href="@{/employee/list}"><font
+                        color="white">従業員管理</font></a></li>
+                <li class="menu-item"><a th:href="@{/report/list}"><font
+                        color="white">日報管理</font></a></li>
+                <li class="menu-item"><font color="white"><span
+                        th:text="${report.employee.name}"></span></font></li>
+                <li class="menu-item"><a th:href="@{/logout}"><font color="white">ログアウト</font></a></li>
+            </ul>
+        </nav>
+    </header>
     <h1>日報 編集ページ</h1>
     <form method="post" th:action="@{/report/edit/{id}/(id=${report.id})}"
         th:object="${report}">
-        <label for="date">日付</label> <input type="text"
-            th:field="*{reportDate}"> <br> <label for="name">氏名</label>
-        <span th:text="*{employee.name}"></span><br> <label
-            for="title">タイトル</label> <input type="text" th:field="*{title}">
-        <br> <label for="content">内容</label> <input type="text"
-            th:field="*{content}"> <br> <input type="submit"
-            value="投稿"> <input type="hidden" id="id" name="id" th:value="*{id}">
+        <label for="date">日付</label><br><input type="text"
+            th:field="*{reportDate}"><br> <label for="name">氏名</label>
+            <br><span th:text="*{employee.name}"></span>
+        <br><label for="title">タイトル</label><br><input type="text"
+            th:field="*{title}"><br><label for="content">内容</label><br>
+        <input type="text" th:field="*{content}"><pre></pre><br><input
+            type="submit" value="投稿"> <input type="hidden" id="id"
+            name="id" th:value="*{id}">
     </form>
     <a th:href="@{/report/list}">一覧に戻る</a>
 </body>
